@@ -28,9 +28,16 @@ type Form = {
 };
 
 const empty: Form = {
-  full_name: "", date_of_birth: "", sex: "", blood_type: "",
-  height_cm: "", weight_kg: "", allergies: "", medications: "",
-  conditions: "", emergency_contact: "",
+  full_name: "",
+  date_of_birth: "",
+  sex: "",
+  blood_type: "",
+  height_cm: "",
+  weight_kg: "",
+  allergies: "",
+  medications: "",
+  conditions: "",
+  emergency_contact: "",
 };
 
 function Onboarding() {
@@ -43,7 +50,11 @@ function Onboarding() {
     (async () => {
       const { data: u } = await supabase.auth.getUser();
       if (!u.user) return;
-      const { data } = await supabase.from("profiles").select("*").eq("id", u.user.id).maybeSingle();
+      const { data } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", u.user.id)
+        .maybeSingle();
       if (data) {
         setForm({
           full_name: data.full_name ?? "",
@@ -111,26 +122,91 @@ function Onboarding() {
       <div className="mb-6">
         <h1 className="text-2xl font-semibold tracking-tight">Your health profile</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          A few basics so HealthThread can give you a more useful summary. Everything is private to you.
+          A few basics so HealthThread can give you a more useful summary. Everything is private to
+          you.
         </p>
       </div>
 
-      <form onSubmit={save} className="space-y-6 rounded-2xl border border-border bg-card p-6 shadow-soft">
+      <form
+        onSubmit={save}
+        className="space-y-6 rounded-2xl border border-border bg-card p-6 shadow-soft"
+      >
         <div className="grid gap-4 md:grid-cols-2">
-          <Field label="Full name"><Input value={form.full_name} onChange={(e) => set("full_name", e.target.value)} /></Field>
-          <Field label="Date of birth"><Input type="date" value={form.date_of_birth} onChange={(e) => set("date_of_birth", e.target.value)} /></Field>
-          <Field label="Sex"><Input value={form.sex} onChange={(e) => set("sex", e.target.value)} placeholder="e.g. Female" /></Field>
-          <Field label="Blood type"><Input value={form.blood_type} onChange={(e) => set("blood_type", e.target.value)} placeholder="e.g. O+" /></Field>
-          <Field label="Height (cm)"><Input type="number" value={form.height_cm} onChange={(e) => set("height_cm", e.target.value)} /></Field>
-          <Field label="Weight (kg)"><Input type="number" value={form.weight_kg} onChange={(e) => set("weight_kg", e.target.value)} /></Field>
+          <Field label="Full name">
+            <Input value={form.full_name} onChange={(e) => set("full_name", e.target.value)} />
+          </Field>
+          <Field label="Date of birth">
+            <Input
+              type="date"
+              value={form.date_of_birth}
+              onChange={(e) => set("date_of_birth", e.target.value)}
+            />
+          </Field>
+          <Field label="Sex">
+            <Input
+              value={form.sex}
+              onChange={(e) => set("sex", e.target.value)}
+              placeholder="e.g. Female"
+            />
+          </Field>
+          <Field label="Blood type">
+            <Input
+              value={form.blood_type}
+              onChange={(e) => set("blood_type", e.target.value)}
+              placeholder="e.g. O+"
+            />
+          </Field>
+          <Field label="Height (cm)">
+            <Input
+              type="number"
+              value={form.height_cm}
+              onChange={(e) => set("height_cm", e.target.value)}
+            />
+          </Field>
+          <Field label="Weight (kg)">
+            <Input
+              type="number"
+              value={form.weight_kg}
+              onChange={(e) => set("weight_kg", e.target.value)}
+            />
+          </Field>
         </div>
-        <Field label="Allergies"><Textarea rows={2} value={form.allergies} onChange={(e) => set("allergies", e.target.value)} placeholder="e.g. Penicillin (rash)" /></Field>
-        <Field label="Current medications"><Textarea rows={2} value={form.medications} onChange={(e) => set("medications", e.target.value)} placeholder="Name, dose, frequency" /></Field>
-        <Field label="Ongoing conditions"><Textarea rows={2} value={form.conditions} onChange={(e) => set("conditions", e.target.value)} placeholder="e.g. Asthma, Hypothyroidism" /></Field>
-        <Field label="Emergency contact"><Input value={form.emergency_contact} onChange={(e) => set("emergency_contact", e.target.value)} placeholder="Name · relationship · phone" /></Field>
+        <Field label="Allergies">
+          <Textarea
+            rows={2}
+            value={form.allergies}
+            onChange={(e) => set("allergies", e.target.value)}
+            placeholder="e.g. Penicillin (rash)"
+          />
+        </Field>
+        <Field label="Current medications">
+          <Textarea
+            rows={2}
+            value={form.medications}
+            onChange={(e) => set("medications", e.target.value)}
+            placeholder="Name, dose, frequency"
+          />
+        </Field>
+        <Field label="Ongoing conditions">
+          <Textarea
+            rows={2}
+            value={form.conditions}
+            onChange={(e) => set("conditions", e.target.value)}
+            placeholder="e.g. Asthma, Hypothyroidism"
+          />
+        </Field>
+        <Field label="Emergency contact">
+          <Input
+            value={form.emergency_contact}
+            onChange={(e) => set("emergency_contact", e.target.value)}
+            placeholder="Name · relationship · phone"
+          />
+        </Field>
 
         <div className="flex items-center justify-end gap-2">
-          <Button type="submit" disabled={busy}>{busy ? "Saving…" : "Save profile"}</Button>
+          <Button type="submit" disabled={busy}>
+            {busy ? "Saving…" : "Save profile"}
+          </Button>
         </div>
         <Disclaimer />
       </form>
@@ -141,7 +217,9 @@ function Onboarding() {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="space-y-1.5">
-      <Label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{label}</Label>
+      <Label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+        {label}
+      </Label>
       {children}
     </div>
   );

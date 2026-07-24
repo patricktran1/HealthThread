@@ -66,7 +66,10 @@ Rules:
 
     const raw = reply.content?.trim() ?? "";
     // Strip code fences if present
-    const cleaned = raw.replace(/^```(?:json)?\s*/i, "").replace(/```$/, "").trim();
+    const cleaned = raw
+      .replace(/^```(?:json)?\s*/i, "")
+      .replace(/```$/, "")
+      .trim();
     try {
       const parsed = JSON.parse(cleaned) as { insights?: Insight[] };
       return { insights: Array.isArray(parsed.insights) ? parsed.insights.slice(0, 4) : [] };

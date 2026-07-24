@@ -1,5 +1,18 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import { Activity, MessageCircle, Plus, FileText, ScrollText, LogOut, User as UserIcon, Menu, FileUp, FolderOpen, TrendingUp, Database } from "lucide-react";
+import {
+  Activity,
+  MessageCircle,
+  Plus,
+  FileText,
+  ScrollText,
+  LogOut,
+  User as UserIcon,
+  Menu,
+  FileUp,
+  FolderOpen,
+  TrendingUp,
+  Database,
+} from "lucide-react";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -44,14 +57,21 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                   key={n.to}
                   to={n.to}
                   className={`rounded-md px-3 py-1.5 text-sm transition-colors ${
-                    active ? "bg-secondary text-secondary-foreground" : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                    active
+                      ? "bg-secondary text-secondary-foreground"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
                   }`}
                 >
                   {n.label}
                 </Link>
               );
             })}
-            <Button variant="ghost" size="sm" onClick={signOut} className="ml-2 text-muted-foreground">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={signOut}
+              className="ml-2 text-muted-foreground"
+            >
               <LogOut className="h-4 w-4" />
             </Button>
           </nav>
@@ -77,7 +97,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                   {n.label}
                 </Link>
               ))}
-              <button onClick={signOut} className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted">
+              <button
+                onClick={signOut}
+                className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted"
+              >
                 <LogOut className="h-4 w-4" />
                 Sign out
               </button>

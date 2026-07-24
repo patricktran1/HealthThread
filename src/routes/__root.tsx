@@ -79,7 +79,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "HealthThread — Your personal medical memory" },
-      { name: "description", content: "Remember, organize, and communicate your medical history. HealthThread does not diagnose or treat." },
+      {
+        name: "description",
+        content:
+          "Remember, organize, and communicate your medical history. HealthThread does not diagnose or treat.",
+      },
       { name: "author", content: "HealthThread" },
       { property: "og:title", content: "HealthThread" },
       { property: "og:description", content: "Your personal medical memory." },

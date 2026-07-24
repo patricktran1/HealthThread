@@ -7,8 +7,8 @@ export function Disclaimer({ className = "" }: { className?: string }) {
     >
       <ShieldCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" />
       <p>
-        HealthThread helps you remember, organize, and communicate your medical history. It does
-        not diagnose, treat, or replace a licensed clinician.
+        HealthThread helps you remember, organize, and communicate your medical history. It does not
+        diagnose, treat, or replace a licensed clinician.
       </p>
     </div>
   );

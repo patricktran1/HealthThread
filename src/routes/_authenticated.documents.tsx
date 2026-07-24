@@ -127,13 +127,20 @@ function DocumentsPage() {
           </p>
         </div>
         <Link to="/import">
-          <Button><FileUp className="mr-1.5 h-4 w-4" /> Import new</Button>
+          <Button>
+            <FileUp className="mr-1.5 h-4 w-4" /> Import new
+          </Button>
         </Link>
       </div>
 
       <div className="mb-4 relative">
         <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-        <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search filenames…" className="pl-9" />
+        <Input
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          placeholder="Search filenames…"
+          className="pl-9"
+        />
       </div>
 
       {loading ? (
@@ -145,7 +152,9 @@ function DocumentsPage() {
           </p>
           {docs.length === 0 && (
             <Link to="/import" className="mt-4 inline-block">
-              <Button><FileUp className="mr-1.5 h-4 w-4" /> Import a document</Button>
+              <Button>
+                <FileUp className="mr-1.5 h-4 w-4" /> Import a document
+              </Button>
             </Link>
           )}
         </div>
@@ -154,14 +163,18 @@ function DocumentsPage() {
           {filtered.map((d) => {
             const Icon = d.kind === "image" ? ImageIcon : FileText;
             return (
-              <li key={d.path} className="flex items-center gap-4 rounded-2xl border border-border bg-card p-4 shadow-soft">
+              <li
+                key={d.path}
+                className="flex items-center gap-4 rounded-2xl border border-border bg-card p-4 shadow-soft"
+              >
                 <div className="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-accent text-accent-foreground">
                   <Icon className="h-5 w-5" />
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-medium">{d.name}</p>
                   <p className="mt-0.5 text-xs text-muted-foreground">
-                    {(d.size / 1024).toFixed(0)} KB · {d.eventCount} linked event{d.eventCount === 1 ? "" : "s"}
+                    {(d.size / 1024).toFixed(0)} KB · {d.eventCount} linked event
+                    {d.eventCount === 1 ? "" : "s"}
                     {d.updatedAt ? ` · ${new Date(d.updatedAt).toLocaleDateString()}` : ""}
                   </p>
                 </div>
@@ -170,7 +183,12 @@ function DocumentsPage() {
                 </Button>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button variant="ghost" size="icon" aria-label="Delete document" disabled={deleting === d.path}>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      aria-label="Delete document"
+                      disabled={deleting === d.path}
+                    >
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   </AlertDialogTrigger>
@@ -178,12 +196,15 @@ function DocumentsPage() {
                     <AlertDialogHeader>
                       <AlertDialogTitle>Delete this document?</AlertDialogTitle>
                       <AlertDialogDescription>
-                        Removes the original file. Any events extracted from it stay in your log, but lose the link to the source.
+                        Removes the original file. Any events extracted from it stay in your log,
+                        but lose the link to the source.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction onClick={() => handleDelete(d.path)}>Delete</AlertDialogAction>
+                      <AlertDialogAction onClick={() => handleDelete(d.path)}>
+                        Delete
+                      </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>

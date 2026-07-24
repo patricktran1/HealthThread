@@ -3,7 +3,17 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Plus, Search, Calendar, MapPin, User as UserIcon, Tag, Pencil, Trash2, Paperclip } from "lucide-react";
+import {
+  Plus,
+  Search,
+  Calendar,
+  MapPin,
+  User as UserIcon,
+  Tag,
+  Pencil,
+  Trash2,
+  Paperclip,
+} from "lucide-react";
 import { Disclaimer } from "@/components/disclaimer";
 import { hydraDeleteMemory } from "@/lib/mock-apis";
 import { openDocument } from "@/lib/document-url";
@@ -103,7 +113,9 @@ function LogPage() {
         <div className="flex items-center gap-2">
           <DemoSeedButton onSeeded={reloadEvents} />
           <Link to="/add-event">
-            <Button><Plus className="mr-1.5 h-4 w-4" /> Add event</Button>
+            <Button>
+              <Plus className="mr-1.5 h-4 w-4" /> Add event
+            </Button>
           </Link>
         </div>
       </div>
@@ -112,24 +124,38 @@ function LogPage() {
 
       <div className="mb-4 relative">
         <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-        <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search your history…" className="pl-9" />
+        <Input
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          placeholder="Search your history…"
+          className="pl-9"
+        />
       </div>
 
       {loading ? (
         <p className="text-sm text-muted-foreground">Loading…</p>
       ) : filtered.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-border bg-card p-10 text-center">
-          <p className="text-sm text-muted-foreground">{events.length === 0 ? "Your thread is empty. Add your first health event." : "No matching events."}</p>
+          <p className="text-sm text-muted-foreground">
+            {events.length === 0
+              ? "Your thread is empty. Add your first health event."
+              : "No matching events."}
+          </p>
           {events.length === 0 && (
             <Link to="/add-event" className="mt-4 inline-block">
-              <Button><Plus className="mr-1.5 h-4 w-4" /> Add first event</Button>
+              <Button>
+                <Plus className="mr-1.5 h-4 w-4" /> Add first event
+              </Button>
             </Link>
           )}
         </div>
       ) : (
         <ol className="space-y-3">
           {filtered.map((e) => (
-            <li key={e.id} className="rounded-2xl border border-border bg-card p-5 shadow-soft transition hover:shadow-card">
+            <li
+              key={e.id}
+              className="rounded-2xl border border-border bg-card p-5 shadow-soft transition hover:shadow-card"
+            >
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2 text-xs">
@@ -138,18 +164,38 @@ function LogPage() {
                     </span>
                     <span className="inline-flex items-center gap-1 text-muted-foreground">
                       <Calendar className="h-3 w-3" />
-                      {new Date(e.event_date).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" })}
+                      {new Date(e.event_date).toLocaleDateString(undefined, {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      })}
                     </span>
-                    {e.provider ? <span className="inline-flex items-center gap-1 text-muted-foreground"><UserIcon className="h-3 w-3" />{e.provider}</span> : null}
-                    {e.location ? <span className="inline-flex items-center gap-1 text-muted-foreground"><MapPin className="h-3 w-3" />{e.location}</span> : null}
+                    {e.provider ? (
+                      <span className="inline-flex items-center gap-1 text-muted-foreground">
+                        <UserIcon className="h-3 w-3" />
+                        {e.provider}
+                      </span>
+                    ) : null}
+                    {e.location ? (
+                      <span className="inline-flex items-center gap-1 text-muted-foreground">
+                        <MapPin className="h-3 w-3" />
+                        {e.location}
+                      </span>
+                    ) : null}
                   </div>
                   <h3 className="mt-2 text-base font-semibold">{e.title}</h3>
-                  {e.description ? <p className="mt-1 text-sm text-muted-foreground">{e.description}</p> : null}
+                  {e.description ? (
+                    <p className="mt-1 text-sm text-muted-foreground">{e.description}</p>
+                  ) : null}
                   {e.tags?.length ? (
                     <div className="mt-3 flex flex-wrap gap-1.5">
                       {e.tags.map((t) => (
-                        <span key={t} className="inline-flex items-center gap-1 rounded-md border border-border px-1.5 py-0.5 text-xs text-muted-foreground">
-                          <Tag className="h-3 w-3" />{t}
+                        <span
+                          key={t}
+                          className="inline-flex items-center gap-1 rounded-md border border-border px-1.5 py-0.5 text-xs text-muted-foreground"
+                        >
+                          <Tag className="h-3 w-3" />
+                          {t}
                         </span>
                       ))}
                     </div>
@@ -177,7 +223,12 @@ function LogPage() {
                   </Link>
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
-                      <Button variant="ghost" size="icon" aria-label="Delete event" disabled={deletingId === e.id}>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        aria-label="Delete event"
+                        disabled={deletingId === e.id}
+                      >
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </AlertDialogTrigger>
@@ -185,12 +236,15 @@ function LogPage() {
                       <AlertDialogHeader>
                         <AlertDialogTitle>Delete this event?</AlertDialogTitle>
                         <AlertDialogDescription>
-                          This permanently removes "{e.title}" from your thread and from the AI's memory. This cannot be undone.
+                          This permanently removes "{e.title}" from your thread and from the AI's
+                          memory. This cannot be undone.
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction onClick={() => handleDelete(e.id)}>Delete</AlertDialogAction>
+                        <AlertDialogAction onClick={() => handleDelete(e.id)}>
+                          Delete
+                        </AlertDialogAction>
                       </AlertDialogFooter>
                     </AlertDialogContent>
                   </AlertDialog>

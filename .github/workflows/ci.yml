@@ -1,0 +1,111 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: healththread-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Clean dependency install
+        run: npm ci --no-audit --no-fund
+
+      - name: Repository and secret hygiene
+        run: npm run hygiene
+
+      - name: Capture high-severity dependency audit
+        id: audit
+        shell: bash
+        run: |
+          set +e
+          npm audit --audit-level=high --json > npm-audit.json
+          exit_code=$?
+          echo "exit_code=${exit_code}" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Upload dependency audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: healththread-npm-audit
+          path: npm-audit.json
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Enforce dependency audit
+        if: steps.audit.outputs.exit_code != '0'
+        run: exit 1
+
+      - name: Capture zero-warning ESLint diagnostics
+        id: lint
+        shell: bash
+        run: |
+          set +e
+          npx eslint . --max-warnings=0 --format json > eslint-report.json
+          exit_code=$?
+          echo "exit_code=${exit_code}" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Upload ESLint diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: healththread-eslint-report
+          path: eslint-report.json
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Enforce lint
+        if: steps.lint.outputs.exit_code != '0'
+        run: exit 1
+
+      - name: TypeScript validation
+        run: npm run check
+
+      - name: Domain regression tests
+        run: npm test
+
+      - name: Coverage baseline
+        shell: bash
+        run: |
+          set -o pipefail
+          npm run test:coverage | tee coverage.txt
+
+      - name: Production build
+        env:
+          SUPABASE_PROJECT_ID: test-project
+          SUPABASE_PUBLISHABLE_KEY: test-publishable-key
+          SUPABASE_URL: https://example.supabase.co
+          VITE_SUPABASE_PROJECT_ID: test-project
+          VITE_SUPABASE_PUBLISHABLE_KEY: test-publishable-key
+          VITE_SUPABASE_URL: https://example.supabase.co
+        run: npm run build
+
+      - name: Upload validation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: healththread-validation-evidence
+          path: coverage.txt
+          if-no-files-found: warn
+          retention-days: 14

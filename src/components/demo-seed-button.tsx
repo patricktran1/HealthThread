@@ -24,7 +24,9 @@ export function DemoSeedButton({ onSeeded }: { onSeeded?: () => void }) {
     const t = toast.loading(reset ? "Resetting & seeding demo data…" : "Seeding demo data…");
     try {
       const res = await seedDemoDataFn({ data: { reset } });
-      toast.success(`Seeded ${res.inserted} events · ${res.ingested} ingested to HydraDB`, { id: t });
+      toast.success(`Seeded ${res.inserted} events · ${res.ingested} ingested to HydraDB`, {
+        id: t,
+      });
       onSeeded?.();
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Seed failed", { id: t });
@@ -37,7 +39,11 @@ export function DemoSeedButton({ onSeeded }: { onSeeded?: () => void }) {
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button variant="outline" size="sm" disabled={busy}>
-          {busy ? <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> : <Sparkles className="mr-1.5 h-3.5 w-3.5" />}
+          {busy ? (
+            <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+          ) : (
+            <Sparkles className="mr-1.5 h-3.5 w-3.5" />
+          )}
           Demo data
         </Button>
       </AlertDialogTrigger>
@@ -45,7 +51,8 @@ export function DemoSeedButton({ onSeeded }: { onSeeded?: () => void }) {
         <AlertDialogHeader>
           <AlertDialogTitle>Load demo health history?</AlertDialogTitle>
           <AlertDialogDescription>
-            Adds ~14 realistic events (BP readings, recurring headaches, labs, a physical, meds) over the last 6 months, and ingests each into HydraDB. Great for live demos.
+            Adds ~14 realistic events (BP readings, recurring headaches, labs, a physical, meds)
+            over the last 6 months, and ingests each into HydraDB. Great for live demos.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="gap-2 sm:gap-2">
@@ -60,7 +67,12 @@ export function DemoSeedButton({ onSeeded }: { onSeeded?: () => void }) {
           >
             <RotateCcw className="mr-1.5 h-3.5 w-3.5" /> Reset & seed
           </AlertDialogAction>
-          <AlertDialogAction onClick={(e) => { e.preventDefault(); run(false); }}>
+          <AlertDialogAction
+            onClick={(e) => {
+              e.preventDefault();
+              run(false);
+            }}
+          >
             <Sparkles className="mr-1.5 h-3.5 w-3.5" /> Add to existing
           </AlertDialogAction>
         </AlertDialogFooter>

@@ -1,13 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
-type JsonValue =
-  | string
-  | number
-  | boolean
-  | null
-  | JsonValue[]
-  | { [k: string]: JsonValue };
+type JsonValue = string | number | boolean | null | JsonValue[] | { [k: string]: JsonValue };
 
 export type HydraHit = {
   id: string;
@@ -19,12 +13,8 @@ export type HydraHit = {
 export const hydraWriteMemoryFn = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator(
-    (input: {
-      text: string;
-      id?: string;
-      metadata?: Record<string, JsonValue>;
-      source?: string;
-    }) => input,
+    (input: { text: string; id?: string; metadata?: Record<string, JsonValue>; source?: string }) =>
+      input,
   )
   .handler(async ({ data, context }): Promise<{ ok: true }> => {
     const { ingestMemory } = await import("./hydra.server");

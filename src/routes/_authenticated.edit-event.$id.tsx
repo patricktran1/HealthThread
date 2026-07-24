@@ -16,7 +16,16 @@ export const Route = createFileRoute("/_authenticated/edit-event/$id")({
   component: EditEvent,
 });
 
-const TYPES = ["Visit", "Lab result", "Medication", "Symptom", "Procedure", "Vaccination", "Imaging", "Other"];
+const TYPES = [
+  "Visit",
+  "Lab result",
+  "Medication",
+  "Symptom",
+  "Procedure",
+  "Vaccination",
+  "Imaging",
+  "Other",
+];
 const ACCEPT = "application/pdf,image/jpeg,image/png,image/webp,image/heic,image/heif";
 
 function EditEvent() {
@@ -86,7 +95,10 @@ function EditEvent() {
     try {
       const { data: u } = await supabase.auth.getUser();
       if (!u.user) throw new Error("Not signed in");
-      const tags = f.tags.split(",").map((t) => t.trim()).filter(Boolean);
+      const tags = f.tags
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean);
 
       let newSourcePath = sourcePath;
       if (pendingFile) {
@@ -137,7 +149,11 @@ function EditEvent() {
 
   if (loading) return <p className="text-sm text-muted-foreground">Loading…</p>;
 
-  const pendingKind = pendingFile ? (pendingFile.type === "application/pdf" ? "pdf" : "image") : null;
+  const pendingKind = pendingFile
+    ? pendingFile.type === "application/pdf"
+      ? "pdf"
+      : "image"
+    : null;
   const sourceKind = sourcePath ? inferKindFromPath(sourcePath) : null;
   const SourceIcon = sourceKind === "image" ? ImageIcon : FileText;
   const PendingIcon = pendingKind === "image" ? ImageIcon : FileText;
@@ -149,11 +165,19 @@ function EditEvent() {
         <p className="mt-1 text-sm text-muted-foreground">Update this memory in your thread.</p>
       </div>
 
-      <form onSubmit={submit} className="space-y-5 rounded-2xl border border-border bg-card p-6 shadow-soft">
+      <form
+        onSubmit={submit}
+        className="space-y-5 rounded-2xl border border-border bg-card p-6 shadow-soft"
+      >
         <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-1.5">
             <Label>Date</Label>
-            <Input type="date" value={f.event_date} onChange={(e) => setF({ ...f, event_date: e.target.value })} required />
+            <Input
+              type="date"
+              value={f.event_date}
+              onChange={(e) => setF({ ...f, event_date: e.target.value })}
+              required
+            />
           </div>
           <div className="space-y-1.5">
             <Label>Type</Label>
@@ -162,7 +186,9 @@ function EditEvent() {
               onChange={(e) => setF({ ...f, event_type: e.target.value })}
               className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm"
             >
-              {TYPES.map((t) => <option key={t}>{t}</option>)}
+              {TYPES.map((t) => (
+                <option key={t}>{t}</option>
+              ))}
             </select>
           </div>
         </div>
@@ -172,7 +198,11 @@ function EditEvent() {
         </div>
         <div className="space-y-1.5">
           <Label>Notes</Label>
-          <Textarea rows={4} value={f.description} onChange={(e) => setF({ ...f, description: e.target.value })} />
+          <Textarea
+            rows={4}
+            value={f.description}
+            onChange={(e) => setF({ ...f, description: e.target.value })}
+          />
         </div>
         <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-1.5">
@@ -190,7 +220,9 @@ function EditEvent() {
         </div>
 
         <div className="space-y-2 rounded-xl border border-border bg-background/40 p-4">
-          <Label className="flex items-center gap-1.5"><Paperclip className="h-3.5 w-3.5" /> Source document</Label>
+          <Label className="flex items-center gap-1.5">
+            <Paperclip className="h-3.5 w-3.5" /> Source document
+          </Label>
           {sourcePath ? (
             <div className="flex flex-wrap items-center gap-2">
               <div className="flex min-w-0 flex-1 items-center gap-2 text-sm">
@@ -209,7 +241,13 @@ function EditEvent() {
               >
                 <ExternalLink className="mr-1.5 h-4 w-4" /> View
               </Button>
-              <Button type="button" variant="ghost" size="sm" onClick={detachSource} disabled={busy}>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={detachSource}
+                disabled={busy}
+              >
                 <X className="mr-1.5 h-4 w-4" /> Detach
               </Button>
             </div>
@@ -238,8 +276,12 @@ function EditEvent() {
         </div>
 
         <div className="flex justify-end gap-2">
-          <Button type="button" variant="ghost" onClick={() => navigate({ to: "/log" })}>Cancel</Button>
-          <Button type="submit" disabled={busy}>{busy ? "Saving…" : "Save changes"}</Button>
+          <Button type="button" variant="ghost" onClick={() => navigate({ to: "/log" })}>
+            Cancel
+          </Button>
+          <Button type="submit" disabled={busy}>
+            {busy ? "Saving…" : "Save changes"}
+          </Button>
         </div>
         <Disclaimer />
       </form>

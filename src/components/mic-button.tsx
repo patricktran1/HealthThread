@@ -38,8 +38,8 @@ export function MicButton({
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
-      const mimeType = ["audio/webm", "audio/mp4"].find((t) =>
-        typeof MediaRecorder !== "undefined" && MediaRecorder.isTypeSupported(t),
+      const mimeType = ["audio/webm", "audio/mp4"].find(
+        (t) => typeof MediaRecorder !== "undefined" && MediaRecorder.isTypeSupported(t),
       );
       if (!mimeType) {
         stream.getTracks().forEach((t) => t.stop());

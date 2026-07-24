@@ -23,7 +23,6 @@ export function InsightsCard({ refreshKey }: { refreshKey?: number }) {
 
   useEffect(() => {
     load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshKey]);
 
   return (
@@ -56,10 +55,7 @@ export function InsightsCard({ refreshKey }: { refreshKey?: number }) {
       ) : (
         <ul className="space-y-2">
           {insights.map((ins, i) => (
-            <li
-              key={i}
-              className="rounded-lg border border-border/60 bg-background/60 p-3"
-            >
+            <li key={i} className="rounded-lg border border-border/60 bg-background/60 p-3">
               <div className="flex items-start gap-2">
                 <Lightbulb className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
                 <div className="min-w-0">
@@ -68,10 +64,7 @@ export function InsightsCard({ refreshKey }: { refreshKey?: number }) {
                   {ins.evidence?.length > 0 && (
                     <ul className="mt-1.5 space-y-0.5">
                       {ins.evidence.map((ev, j) => (
-                        <li
-                          key={j}
-                          className="text-[11px] text-muted-foreground/80"
-                        >
+                        <li key={j} className="text-[11px] text-muted-foreground/80">
                           ↳ {ev}
                         </li>
                       ))}
