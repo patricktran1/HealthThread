@@ -30,8 +30,30 @@ jobs:
       - name: Install committed dependency graph
         run: npm install --no-audit --no-fund
 
+      - name: Capture lockfile drift
+        id: lockfile
+        shell: bash
+        run: |
+          git diff -- package-lock.json > lockfile-diff.txt
+          if test -s lockfile-diff.txt; then
+            echo 'drift=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'drift=false' >> "$GITHUB_OUTPUT"
+            echo 'No package-lock.json drift.' > lockfile-diff.txt
+          fi
+
+      - name: Upload lockfile evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: healththread-lockfile-evidence
+          path: lockfile-diff.txt
+          if-no-files-found: error
+          retention-days: 14
+
       - name: Enforce lockfile reproducibility
-        run: git diff --exit-code -- package-lock.json
+        if: steps.lockfile.outputs.drift == 'true'
+        run: exit 1
 
       - name: Repository and secret hygiene
         run: npm run hygiene
