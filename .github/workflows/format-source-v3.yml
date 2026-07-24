@@ -1,0 +1,65 @@
+name: Format application source
+
+on:
+  push:
+    branches: [chore/health-event-ci-harness]
+    paths:
+      - '.github/workflows/format-source-v3.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: healththread-source-format-v3
+  cancel-in-progress: false
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: chore/health-event-ci-harness
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Format application and documentation
+        run: >-
+          npx prettier --write
+          src test scripts
+          README.md CONTRIBUTING.md .github/pull_request_template.md
+          eslint.config.js vite.config.ts tsconfig.json components.json package.json .prettierrc
+
+      - name: Verify formatting scope
+        shell: bash
+        run: |
+          git diff --check
+          changed="$(git diff --name-only)"
+          test -n "$changed"
+          unexpected="$(printf '%s\n' "$changed" | grep -Ev '^(src/|test/|scripts/|README\.md$|CONTRIBUTING\.md$|\.github/pull_request_template\.md$|eslint\.config\.js$|vite\.config\.ts$|tsconfig\.json$|components\.json$|package\.json$|\.prettierrc$)' || true)"
+          if test -n "$unexpected"; then
+            echo "Unexpected formatted paths:" >&2
+            echo "$unexpected" >&2
+            exit 1
+          fi
+          test -z "$(git diff --name-only -- package-lock.json bun.lock .github/workflows)"
+
+      - name: Commit formatting
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src test scripts README.md CONTRIBUTING.md .github/pull_request_template.md eslint.config.js vite.config.ts tsconfig.json components.json package.json .prettierrc
+          git commit -m 'Format extracted HealthThread source'
+          git push origin HEAD:chore/health-event-ci-harness
