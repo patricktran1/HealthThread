@@ -56,12 +56,12 @@ jobs:
         if: steps.audit.outputs.exit_code != '0'
         run: exit 1
 
-      - name: Capture ESLint diagnostics
+      - name: Capture zero-warning ESLint diagnostics
         id: lint
         shell: bash
         run: |
           set +e
-          npx eslint . --format json > eslint-report.json
+          npx eslint . --max-warnings=0 --format json > eslint-report.json
           exit_code=$?
           echo "exit_code=${exit_code}" >> "$GITHUB_OUTPUT"
           exit 0
