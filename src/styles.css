@@ -5,8 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-display: 'Inter', system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-display: "Inter", system-ui, sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -54,13 +54,13 @@
   --card-foreground: oklch(0.22 0.03 240);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.22 0.03 240);
-  --primary: oklch(0.58 0.11 215);       /* soft medical blue */
+  --primary: oklch(0.58 0.11 215); /* soft medical blue */
   --primary-foreground: oklch(0.99 0.005 220);
   --secondary: oklch(0.96 0.015 200);
   --secondary-foreground: oklch(0.32 0.05 230);
   --muted: oklch(0.965 0.008 220);
   --muted-foreground: oklch(0.5 0.025 230);
-  --accent: oklch(0.93 0.05 175);        /* soft mint */
+  --accent: oklch(0.93 0.05 175); /* soft mint */
   --accent-foreground: oklch(0.3 0.06 195);
   --mint: oklch(0.82 0.09 170);
   --mint-foreground: oklch(0.28 0.06 190);
@@ -107,8 +107,14 @@
 }
 
 @layer base {
-  * { border-color: var(--color-border); }
-  html, body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+  * {
+    border-color: var(--color-border);
+  }
+  html,
+  body {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
@@ -116,8 +122,16 @@
 }
 
 @layer utilities {
-  .bg-hero { background: var(--gradient-hero); }
-  .bg-card-gradient { background: var(--gradient-card); }
-  .shadow-soft { box-shadow: var(--shadow-soft); }
-  .shadow-card { box-shadow: var(--shadow-card); }
+  .bg-hero {
+    background: var(--gradient-hero);
+  }
+  .bg-card-gradient {
+    background: var(--gradient-card);
+  }
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
 }

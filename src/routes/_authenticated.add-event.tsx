@@ -80,7 +80,10 @@ function AddEvent() {
         </p>
       </div>
 
-      <form onSubmit={submit} className="space-y-5 rounded-2xl border border-border bg-card p-6 shadow-soft">
+      <form
+        onSubmit={submit}
+        className="space-y-5 rounded-2xl border border-border bg-card p-6 shadow-soft"
+      >
         <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-1.5">
             <Label>Date</Label>

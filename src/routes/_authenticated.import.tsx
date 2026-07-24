@@ -124,10 +124,7 @@ function ImportDoc() {
         source_document_path: path,
       }));
 
-      const { data: inserted, error } = await supabase
-        .from("health_events")
-        .insert(rows)
-        .select();
+      const { data: inserted, error } = await supabase.from("health_events").insert(rows).select();
       if (error) throw error;
 
       // Index each new event in Hydra memory
@@ -158,7 +155,8 @@ function ImportDoc() {
       <div className="mb-6">
         <h1 className="text-2xl font-semibold tracking-tight">Import from a document or photo</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Upload a PDF (after-visit summary, lab report) or a photo of a printout, prescription bottle, or handwritten note. I'll extract events for you to review before saving.
+          Upload a PDF (after-visit summary, lab report) or a photo of a printout, prescription
+          bottle, or handwritten note. I'll extract events for you to review before saving.
         </p>
       </div>
 
@@ -188,7 +186,11 @@ function ImportDoc() {
         </div>
         {file && (
           <p className="mt-2 flex items-center gap-1.5 text-xs text-muted-foreground">
-            {kind === "image" ? <ImageIcon className="h-3.5 w-3.5" /> : <FileText className="h-3.5 w-3.5" />}
+            {kind === "image" ? (
+              <ImageIcon className="h-3.5 w-3.5" />
+            ) : (
+              <FileText className="h-3.5 w-3.5" />
+            )}
             {file.name} · {(file.size / 1024).toFixed(0)} KB
             {!kind && <span className="text-destructive"> · unsupported type</span>}
           </p>

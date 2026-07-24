@@ -35,7 +35,8 @@ type Metric = { date: string; value: number; label: string };
 function parseBP(text: string): { systolic: number; diastolic: number } | null {
   const m = text.match(/\b(\d{2,3})\s*\/\s*(\d{2,3})\b/);
   if (!m) return null;
-  const s = +m[1], d = +m[2];
+  const s = +m[1],
+    d = +m[2];
   if (s < 60 || s > 250 || d < 30 || d > 160) return null;
   return { systolic: s, diastolic: d };
 }
@@ -130,7 +131,8 @@ function TrendsPage() {
       <div>
         <h1 className="text-2xl font-semibold tracking-tight">Trends</h1>
         <p className="text-sm text-muted-foreground">
-          Patterns extracted from your logged events. Numeric values like blood pressure, weight, and temperature are detected automatically from titles and descriptions.
+          Patterns extracted from your logged events. Numeric values like blood pressure, weight,
+          and temperature are detected automatically from titles and descriptions.
         </p>
       </div>
 
@@ -148,7 +150,14 @@ function TrendsPage() {
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                 <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" fontSize={12} />
                 <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} allowDecimals={false} />
-                <Tooltip contentStyle={{ background: "hsl(var(--popover))", border: "1px solid hsl(var(--border))", borderRadius: 6, fontSize: 12 }} />
+                <Tooltip
+                  contentStyle={{
+                    background: "hsl(var(--popover))",
+                    border: "1px solid hsl(var(--border))",
+                    borderRadius: 6,
+                    fontSize: 12,
+                  }}
+                />
                 <Legend wrapperStyle={{ fontSize: 12 }} />
                 {types.map((tp, i) => (
                   <Bar key={tp} dataKey={tp} stackId="a" fill={typeColors[i % typeColors.length]} />
@@ -162,7 +171,10 @@ function TrendsPage() {
               {totalsByType.map(([type, count], i) => (
                 <li key={type} className="flex items-center justify-between text-sm">
                   <span className="flex items-center gap-2">
-                    <span className="inline-block h-3 w-3 rounded-sm" style={{ background: typeColors[i % typeColors.length] }} />
+                    <span
+                      className="inline-block h-3 w-3 rounded-sm"
+                      style={{ background: typeColors[i % typeColors.length] }}
+                    />
                     <span className="capitalize">{type}</span>
                   </span>
                   <span className="font-medium tabular-nums">{count}</span>
@@ -171,45 +183,114 @@ function TrendsPage() {
             </ul>
           </ChartCard>
 
-          <ChartCard title="Blood pressure" empty={bpData.length === 0} hint="Detected from values like 120/80">
+          <ChartCard
+            title="Blood pressure"
+            empty={bpData.length === 0}
+            hint="Detected from values like 120/80"
+          >
             {bpData.length > 0 && (
               <ResponsiveContainer width="100%" height={260}>
                 <LineChart data={bpData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                   <XAxis dataKey="date" stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                  <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} domain={["dataMin - 10", "dataMax + 10"]} />
-                  <Tooltip contentStyle={{ background: "hsl(var(--popover))", border: "1px solid hsl(var(--border))", borderRadius: 6, fontSize: 12 }} />
+                  <YAxis
+                    stroke="hsl(var(--muted-foreground))"
+                    fontSize={12}
+                    domain={["dataMin - 10", "dataMax + 10"]}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      background: "hsl(var(--popover))",
+                      border: "1px solid hsl(var(--border))",
+                      borderRadius: 6,
+                      fontSize: 12,
+                    }}
+                  />
                   <Legend wrapperStyle={{ fontSize: 12 }} />
-                  <Line type="monotone" dataKey="systolic" stroke={typeColors[0]} strokeWidth={2} dot={{ r: 3 }} />
-                  <Line type="monotone" dataKey="diastolic" stroke={typeColors[1]} strokeWidth={2} dot={{ r: 3 }} />
+                  <Line
+                    type="monotone"
+                    dataKey="systolic"
+                    stroke={typeColors[0]}
+                    strokeWidth={2}
+                    dot={{ r: 3 }}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="diastolic"
+                    stroke={typeColors[1]}
+                    strokeWidth={2}
+                    dot={{ r: 3 }}
+                  />
                 </LineChart>
               </ResponsiveContainer>
             )}
           </ChartCard>
 
-          <ChartCard title="Weight (kg)" empty={weightData.length === 0} hint="Detected from values like 72 kg or 158 lb">
+          <ChartCard
+            title="Weight (kg)"
+            empty={weightData.length === 0}
+            hint="Detected from values like 72 kg or 158 lb"
+          >
             {weightData.length > 0 && (
               <ResponsiveContainer width="100%" height={260}>
                 <LineChart data={weightData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                   <XAxis dataKey="date" stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                  <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} domain={["dataMin - 2", "dataMax + 2"]} />
-                  <Tooltip contentStyle={{ background: "hsl(var(--popover))", border: "1px solid hsl(var(--border))", borderRadius: 6, fontSize: 12 }} />
-                  <Line type="monotone" dataKey="value" stroke={typeColors[2]} strokeWidth={2} dot={{ r: 3 }} />
+                  <YAxis
+                    stroke="hsl(var(--muted-foreground))"
+                    fontSize={12}
+                    domain={["dataMin - 2", "dataMax + 2"]}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      background: "hsl(var(--popover))",
+                      border: "1px solid hsl(var(--border))",
+                      borderRadius: 6,
+                      fontSize: 12,
+                    }}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="value"
+                    stroke={typeColors[2]}
+                    strokeWidth={2}
+                    dot={{ r: 3 }}
+                  />
                 </LineChart>
               </ResponsiveContainer>
             )}
           </ChartCard>
 
-          <ChartCard title="Temperature (°C)" empty={tempData.length === 0} hint="Detected from values like 38.5 C or 101.2 F">
+          <ChartCard
+            title="Temperature (°C)"
+            empty={tempData.length === 0}
+            hint="Detected from values like 38.5 C or 101.2 F"
+          >
             {tempData.length > 0 && (
               <ResponsiveContainer width="100%" height={260}>
                 <LineChart data={tempData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                   <XAxis dataKey="date" stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                  <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} domain={["dataMin - 0.5", "dataMax + 0.5"]} />
-                  <Tooltip contentStyle={{ background: "hsl(var(--popover))", border: "1px solid hsl(var(--border))", borderRadius: 6, fontSize: 12 }} />
-                  <Line type="monotone" dataKey="value" stroke={typeColors[3]} strokeWidth={2} dot={{ r: 3 }} />
+                  <YAxis
+                    stroke="hsl(var(--muted-foreground))"
+                    fontSize={12}
+                    domain={["dataMin - 0.5", "dataMax + 0.5"]}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      background: "hsl(var(--popover))",
+                      border: "1px solid hsl(var(--border))",
+                      borderRadius: 6,
+                      fontSize: 12,
+                    }}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="value"
+                    stroke={typeColors[3]}
+                    strokeWidth={2}
+                    dot={{ r: 3 }}
+                  />
                 </LineChart>
               </ResponsiveContainer>
             )}
@@ -222,7 +303,17 @@ function TrendsPage() {
   );
 }
 
-function ChartCard({ title, children, empty, hint }: { title: string; children: React.ReactNode; empty?: boolean; hint?: string }) {
+function ChartCard({
+  title,
+  children,
+  empty,
+  hint,
+}: {
+  title: string;
+  children: React.ReactNode;
+  empty?: boolean;
+  hint?: string;
+}) {
   return (
     <div className="rounded-lg border border-border bg-card p-4">
       <div className="mb-3">
@@ -230,7 +321,9 @@ function ChartCard({ title, children, empty, hint }: { title: string; children: 
         {hint ? <p className="text-xs text-muted-foreground">{hint}</p> : null}
       </div>
       {empty ? (
-        <div className="grid h-[220px] place-items-center text-xs text-muted-foreground">No data yet</div>
+        <div className="grid h-[220px] place-items-center text-xs text-muted-foreground">
+          No data yet
+        </div>
       ) : (
         children
       )}

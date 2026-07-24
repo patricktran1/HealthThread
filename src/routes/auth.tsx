@@ -64,7 +64,9 @@ function AuthPage() {
 
   async function google() {
     setBusy(true);
-    const res = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin + "/log" });
+    const res = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: window.location.origin + "/log",
+    });
     if (res.error) {
       toast.error(res.error.message ?? "Google sign-in failed");
       setBusy(false);
@@ -84,9 +86,13 @@ function AuthPage() {
         </Link>
 
         <div className="rounded-2xl border border-border bg-card p-6 shadow-card">
-          <h1 className="text-xl font-semibold">{mode === "signin" ? "Welcome back" : "Create your account"}</h1>
+          <h1 className="text-xl font-semibold">
+            {mode === "signin" ? "Welcome back" : "Create your account"}
+          </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            {mode === "signin" ? "Sign in to continue your thread." : "A calm place for your medical history."}
+            {mode === "signin"
+              ? "Sign in to continue your thread."
+              : "A calm place for your medical history."}
           </p>
 
           <Button onClick={google} disabled={busy} variant="outline" className="mt-5 w-full">
@@ -105,11 +111,24 @@ function AuthPage() {
             ) : null}
             <div>
               <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+              <Input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
             </div>
             <div>
               <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} minLength={6} required />
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                minLength={6}
+                required
+              />
             </div>
             <Button type="submit" disabled={busy} className="w-full">
               {mode === "signin" ? "Sign in" : "Create account"}

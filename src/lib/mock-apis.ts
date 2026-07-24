@@ -33,7 +33,10 @@ export async function hydraWriteMemory(
       data: {
         id: input.id,
         text: input.text,
-        metadata: { kind: input.kind, ...(input.metadata ?? {}) } as unknown as Record<string, never>,
+        metadata: { kind: input.kind, ...(input.metadata ?? {}) } as unknown as Record<
+          string,
+          never
+        >,
         source: input.source,
       },
     });

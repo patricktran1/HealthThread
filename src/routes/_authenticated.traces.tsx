@@ -4,7 +4,15 @@ import { supabase } from "@/integrations/supabase/client";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ChevronDown, ChevronRight, RefreshCw, Database, Search, Trash2, AlertCircle } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronRight,
+  RefreshCw,
+  Database,
+  Search,
+  Trash2,
+  AlertCircle,
+} from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/traces")({
   head: () => ({ meta: [{ title: "HydraDB traces · HealthThread" }] }),
@@ -104,7 +112,8 @@ function TracesPage() {
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">HydraDB traces</h1>
           <p className="text-sm text-muted-foreground">
-            Live log of every read and write the agent performs against HydraDB. Use this to verify the agent is autonomously persisting and recalling your memory.
+            Live log of every read and write the agent performs against HydraDB. Use this to verify
+            the agent is autonomously persisting and recalling your memory.
           </p>
         </div>
         <Button variant="outline" size="sm" onClick={load}>
@@ -144,7 +153,8 @@ function TracesPage() {
         <div className="text-sm text-muted-foreground">Loading…</div>
       ) : filtered.length === 0 ? (
         <div className="rounded-lg border border-border bg-card p-8 text-center text-sm text-muted-foreground">
-          No traces match. Try a different filter, or trigger an action (log an event, ask the chat a question).
+          No traces match. Try a different filter, or trigger an action (log an event, ask the chat
+          a question).
         </div>
       ) : (
         <div className="divide-y divide-border overflow-hidden rounded-lg border border-border bg-card">
@@ -171,7 +181,9 @@ function TracesPage() {
                       <AlertCircle className="mr-1 h-3 w-3" /> error
                     </Badge>
                   ) : (
-                    <Badge variant="secondary" className="shrink-0">ok</Badge>
+                    <Badge variant="secondary" className="shrink-0">
+                      ok
+                    </Badge>
                   )}
                   <span className="shrink-0 rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-muted-foreground">
                     {t.source}
@@ -190,7 +202,9 @@ function TracesPage() {
                   <div className="space-y-3 border-t border-border bg-muted/20 px-4 py-3">
                     {t.error ? (
                       <Block label="Error">
-                        <pre className="whitespace-pre-wrap break-words text-xs text-destructive">{t.error}</pre>
+                        <pre className="whitespace-pre-wrap break-words text-xs text-destructive">
+                          {t.error}
+                        </pre>
                       </Block>
                     ) : null}
                     <Block label="Request">
@@ -210,11 +224,21 @@ function TracesPage() {
   );
 }
 
-function Stat({ label, value, tone = "default" }: { label: string; value: number; tone?: "default" | "error" }) {
+function Stat({
+  label,
+  value,
+  tone = "default",
+}: {
+  label: string;
+  value: number;
+  tone?: "default" | "error";
+}) {
   return (
     <div className="rounded-lg border border-border bg-card p-3">
       <div className="text-xs text-muted-foreground">{label}</div>
-      <div className={`text-2xl font-semibold tabular-nums ${tone === "error" && value > 0 ? "text-destructive" : ""}`}>
+      <div
+        className={`text-2xl font-semibold tabular-nums ${tone === "error" && value > 0 ? "text-destructive" : ""}`}
+      >
         {value}
       </div>
     </div>
@@ -224,7 +248,9 @@ function Stat({ label, value, tone = "default" }: { label: string; value: number
 function Block({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <div className="mb-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">{label}</div>
+      <div className="mb-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+        {label}
+      </div>
       {children}
     </div>
   );

@@ -56,7 +56,7 @@ test("accepts every explicit event type", () => {
 });
 
 test("rejects malformed and impossible dates", () => {
-  for (const eventDate of ["07/23/2026", "2026-2-03", "2026-02-30", "2025-02-29", ""] ) {
+  for (const eventDate of ["07/23/2026", "2026-2-03", "2026-02-30", "2025-02-29", ""]) {
     assert.throws(
       () => normalizeHealthEvent({ event_date: eventDate, event_type: "Visit", title: "Event" }),
       /event_date/,
@@ -66,7 +66,8 @@ test("rejects malformed and impossible dates", () => {
 
 test("rejects unsupported event types rather than widening the enum", () => {
   assert.throws(
-    () => normalizeHealthEvent({ event_date: "2026-07-23", event_type: "Diagnosis", title: "Event" }),
+    () =>
+      normalizeHealthEvent({ event_date: "2026-07-23", event_type: "Diagnosis", title: "Event" }),
     /event_type is not supported/,
   );
 });
@@ -77,7 +78,12 @@ test("requires a bounded title", () => {
     /title is required/,
   );
   assert.throws(
-    () => normalizeHealthEvent({ event_date: "2026-07-23", event_type: "Visit", title: "x".repeat(161) }),
+    () =>
+      normalizeHealthEvent({
+        event_date: "2026-07-23",
+        event_type: "Visit",
+        title: "x".repeat(161),
+      }),
     /title exceeds 160/,
   );
 });
@@ -95,12 +101,13 @@ test("enforces optional-field and tag bounds", () => {
     () => normalizeHealthEvent({ ...valid, location: "x".repeat(161) }),
     /location exceeds 160/,
   );
+  assert.throws(() => normalizeHealthEvent({ ...valid, tags: "x".repeat(41) }), /tag exceeds 40/);
   assert.throws(
-    () => normalizeHealthEvent({ ...valid, tags: "x".repeat(41) }),
-    /tag exceeds 40/,
-  );
-  assert.throws(
-    () => normalizeHealthEvent({ ...valid, tags: Array.from({ length: 21 }, (_, index) => `tag-${index}`) }),
+    () =>
+      normalizeHealthEvent({
+        ...valid,
+        tags: Array.from({ length: 21 }, (_, index) => `tag-${index}`),
+      }),
     /tags exceed 20/,
   );
 });

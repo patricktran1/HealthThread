@@ -33,8 +33,14 @@ function Landing() {
           <span className="text-lg font-semibold tracking-tight">HealthThread</span>
         </div>
         <div className="flex items-center gap-2">
-          <Link to="/auth"><Button variant="ghost" size="sm">Sign in</Button></Link>
-          <Link to="/auth"><Button size="sm">Get started</Button></Link>
+          <Link to="/auth">
+            <Button variant="ghost" size="sm">
+              Sign in
+            </Button>
+          </Link>
+          <Link to="/auth">
+            <Button size="sm">Get started</Button>
+          </Link>
         </div>
       </header>
 
@@ -46,19 +52,25 @@ function Landing() {
               Personal medical memory, designed for clarity
             </div>
             <h1 className="text-4xl font-semibold tracking-tight text-foreground md:text-6xl">
-              Your health history,{" "}
-              <span className="text-primary">remembered for you.</span>
+              Your health history, <span className="text-primary">remembered for you.</span>
             </h1>
             <p className="mx-auto mt-5 max-w-xl text-base text-muted-foreground md:text-lg">
-              HealthThread helps you remember, organize, and communicate your medical history.
-              It does not diagnose, treat, or replace a licensed clinician.
+              HealthThread helps you remember, organize, and communicate your medical history. It
+              does not diagnose, treat, or replace a licensed clinician.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              <Link to="/auth"><Button size="lg">Create your thread</Button></Link>
-              <Link to="/auth"><Button size="lg" variant="outline">I already have an account</Button></Link>
+              <Link to="/auth">
+                <Button size="lg">Create your thread</Button>
+              </Link>
+              <Link to="/auth">
+                <Button size="lg" variant="outline">
+                  I already have an account
+                </Button>
+              </Link>
             </div>
             <p className="mt-4 flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
-              <ShieldCheck className="h-3.5 w-3.5 text-primary" /> Private by default · Encrypted at rest
+              <ShieldCheck className="h-3.5 w-3.5 text-primary" /> Private by default · Encrypted at
+              rest
             </p>
           </div>
         </div>
@@ -67,11 +79,26 @@ function Landing() {
       <section className="mx-auto max-w-6xl px-4 py-16 md:py-24">
         <div className="grid gap-4 md:grid-cols-3">
           {[
-            { icon: ScrollText, title: "A clear timeline", body: "Every visit, lab result, and medication change — kept in one calm, searchable thread." },
-            { icon: MessageCircle, title: "Chat with your history", body: "Ask 'what did the cardiologist say in March?' and get answers grounded in your own records." },
-            { icon: FileText, title: "Doctor-ready summaries", body: "Generate a one-page summary you can hand to any clinician — no rummaging through emails." },
+            {
+              icon: ScrollText,
+              title: "A clear timeline",
+              body: "Every visit, lab result, and medication change — kept in one calm, searchable thread.",
+            },
+            {
+              icon: MessageCircle,
+              title: "Chat with your history",
+              body: "Ask 'what did the cardiologist say in March?' and get answers grounded in your own records.",
+            },
+            {
+              icon: FileText,
+              title: "Doctor-ready summaries",
+              body: "Generate a one-page summary you can hand to any clinician — no rummaging through emails.",
+            },
           ].map((f) => (
-            <div key={f.title} className="rounded-2xl border border-border bg-card-gradient p-6 shadow-soft">
+            <div
+              key={f.title}
+              className="rounded-2xl border border-border bg-card-gradient p-6 shadow-soft"
+            >
               <div className="grid h-10 w-10 place-items-center rounded-lg bg-accent text-accent-foreground">
                 <f.icon className="h-5 w-5" />
               </div>
@@ -85,16 +112,23 @@ function Landing() {
       <section className="mx-auto max-w-4xl px-4 pb-24">
         <div className="rounded-3xl bg-primary p-10 text-center text-primary-foreground shadow-card">
           <h2 className="text-2xl font-semibold md:text-3xl">Start your health thread today.</h2>
-          <p className="mt-2 text-sm opacity-90 md:text-base">It takes about two minutes to set up.</p>
+          <p className="mt-2 text-sm opacity-90 md:text-base">
+            It takes about two minutes to set up.
+          </p>
           <div className="mt-6">
-            <Link to="/auth"><Button size="lg" variant="secondary">Get started — free</Button></Link>
+            <Link to="/auth">
+              <Button size="lg" variant="secondary">
+                Get started — free
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
 
       <footer className="border-t border-border">
         <div className="mx-auto max-w-6xl px-4 py-8 text-xs text-muted-foreground">
-          © {new Date().getFullYear()} HealthThread. Not a medical device. Information you store here is for personal organization only.
+          © {new Date().getFullYear()} HealthThread. Not a medical device. Information you store
+          here is for personal organization only.
         </div>
       </footer>
     </div>

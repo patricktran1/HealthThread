@@ -31,14 +31,11 @@ export const Route = createFileRoute("/api/transcribe")({
         upstream.append("model", "openai/gpt-4o-mini-transcribe");
         upstream.append("file", file, `recording.${ext}`);
 
-        const res = await fetch(
-          "https://ai.gateway.lovable.dev/v1/audio/transcriptions",
-          {
-            method: "POST",
-            headers: { Authorization: `Bearer ${key}` },
-            body: upstream,
-          },
-        );
+        const res = await fetch("https://ai.gateway.lovable.dev/v1/audio/transcriptions", {
+          method: "POST",
+          headers: { Authorization: `Bearer ${key}` },
+          body: upstream,
+        });
 
         if (!res.ok) {
           const body = await res.text().catch(() => "");

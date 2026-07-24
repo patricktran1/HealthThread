@@ -32,7 +32,9 @@ export const chatAgentFn = createServerFn({ method: "POST" })
     return {
       userMessage: input.userMessage,
       history: history
-        .filter((m) => (m.role === "user" || m.role === "assistant") && typeof m.content === "string")
+        .filter(
+          (m) => (m.role === "user" || m.role === "assistant") && typeof m.content === "string",
+        )
         .slice(-20),
     };
   })

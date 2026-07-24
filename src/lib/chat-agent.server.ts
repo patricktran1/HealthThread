@@ -29,7 +29,16 @@ const EVENT_PROPS = {
   event_date: { type: "string", description: "ISO date YYYY-MM-DD" },
   event_type: {
     type: "string",
-    enum: ["Visit", "Lab result", "Medication", "Symptom", "Procedure", "Vaccination", "Imaging", "Other"],
+    enum: [
+      "Visit",
+      "Lab result",
+      "Medication",
+      "Symptom",
+      "Procedure",
+      "Vaccination",
+      "Imaging",
+      "Other",
+    ],
   },
   title: { type: "string", description: "Short title, e.g. 'Headache' or 'Annual physical'" },
   description: { type: "string", description: "Additional detail, optional" },
@@ -43,7 +52,8 @@ const TOOLS: NebiusTool[] = [
     type: "function",
     function: {
       name: "suggest_log_event",
-      description: "Propose a structured event for the user to save with one click. Use this when the user mentions a symptom, medication, visit, or other health fact in passing but did NOT explicitly ask to log it. Does not save anything.",
+      description:
+        "Propose a structured event for the user to save with one click. Use this when the user mentions a symptom, medication, visit, or other health fact in passing but did NOT explicitly ask to log it. Does not save anything.",
       parameters: {
         type: "object",
         properties: EVENT_PROPS,
@@ -55,7 +65,8 @@ const TOOLS: NebiusTool[] = [
     type: "function",
     function: {
       name: "log_event",
-      description: "Save a new health event to the user's thread. Use ONLY when the user explicitly asks to log/save/record something.",
+      description:
+        "Save a new health event to the user's thread. Use ONLY when the user explicitly asks to log/save/record something.",
       parameters: {
         type: "object",
         properties: EVENT_PROPS,
@@ -67,7 +78,8 @@ const TOOLS: NebiusTool[] = [
     type: "function",
     function: {
       name: "search_history",
-      description: "Semantically search the user's saved health memory. Use this before answering any question about their past.",
+      description:
+        "Semantically search the user's saved health memory. Use this before answering any question about their past.",
       parameters: {
         type: "object",
         properties: {
@@ -103,7 +115,8 @@ const TOOLS: NebiusTool[] = [
     type: "function",
     function: {
       name: "delete_event",
-      description: "Delete an event by id. Only call this when the user explicitly asks to remove it.",
+      description:
+        "Delete an event by id. Only call this when the user explicitly asks to remove it.",
       parameters: {
         type: "object",
         properties: { id: { type: "string" } },
@@ -159,7 +172,11 @@ async function runTool(
       metadata: { eventId: data.id, provider: row.provider, tags: row.tags },
       source: "chat:log_event",
     }).catch((e) => console.warn("[hydra ingest]", e));
-    return { ok: true, id: data.id, summary: `Logged: ${row.event_date} ${row.event_type} — ${row.title}` };
+    return {
+      ok: true,
+      id: data.id,
+      summary: `Logged: ${row.event_date} ${row.event_type} — ${row.title}`,
+    };
   }
 
   if (name === "search_history") {
@@ -205,7 +222,9 @@ async function runTool(
     const id = String(args.id);
     const { error } = await supabase.from("health_events").delete().eq("id", id);
     if (error) return { ok: false, error: error.message };
-    await deleteMemory(userId, [id], "chat:delete_event").catch((e) => console.warn("[hydra delete]", e));
+    await deleteMemory(userId, [id], "chat:delete_event").catch((e) =>
+      console.warn("[hydra delete]", e),
+    );
     return { ok: true, id, summary: "Event deleted." };
   }
 

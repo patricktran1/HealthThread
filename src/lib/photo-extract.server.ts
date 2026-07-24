@@ -74,7 +74,8 @@ export async function extractEventsFromImage(
   if (!res.ok) {
     const text = await res.text().catch(() => "");
     if (res.status === 429) throw new Error("AI rate limit reached — try again in a moment.");
-    if (res.status === 402) throw new Error("AI credits exhausted. Please add credits in workspace settings.");
+    if (res.status === 402)
+      throw new Error("AI credits exhausted. Please add credits in workspace settings.");
     throw new Error(`Vision model ${res.status}: ${text.slice(0, 300)}`);
   }
 

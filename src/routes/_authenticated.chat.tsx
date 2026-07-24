@@ -3,7 +3,20 @@ import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Send, MessageCircle, Wrench, Check, Plus, X, Calendar, FileText, Database, Search, Pencil, Trash2 } from "lucide-react";
+import {
+  Send,
+  MessageCircle,
+  Wrench,
+  Check,
+  Plus,
+  X,
+  Calendar,
+  FileText,
+  Database,
+  Search,
+  Pencil,
+  Trash2,
+} from "lucide-react";
 import { Disclaimer } from "@/components/disclaimer";
 import { chatAgentFn, type ChatToolEvent, type SuggestedEvent } from "@/lib/chat-agent.functions";
 import { hydraWriteMemory } from "@/lib/mock-apis";
@@ -128,7 +141,9 @@ function Chat() {
     const userMsg: Msg = { id: crypto.randomUUID(), role: "user", content: text };
     const history = messages.map((m) => ({ role: m.role, content: m.content }));
     setMessages((m) => [...m, userMsg]);
-    await supabase.from("chat_messages").insert({ user_id: u.user.id, role: "user", content: text });
+    await supabase
+      .from("chat_messages")
+      .insert({ user_id: u.user.id, role: "user", content: text });
 
     // Live agent trace: poll hydra_traces while the agent works.
     const sendStart = new Date().toISOString();
@@ -197,8 +212,7 @@ function Chat() {
                 m.tools
                   ?.map((t, i) => ({ tool: t, idx: i }))
                   .filter((x) => x.tool.name === "suggest_log_event" && x.tool.suggestion) ?? [];
-              const chips =
-                m.tools?.filter((t) => t.name !== "suggest_log_event") ?? [];
+              const chips = m.tools?.filter((t) => t.name !== "suggest_log_event") ?? [];
 
               return (
                 <li key={m.id} className={m.role === "user" ? "flex justify-end" : ""}>
@@ -302,7 +316,9 @@ function Chat() {
                     </span>
                   </div>
                   {liveTraces.length === 0 ? (
-                    <p className="mt-1.5 text-xs text-muted-foreground">Reasoning over your memory…</p>
+                    <p className="mt-1.5 text-xs text-muted-foreground">
+                      Reasoning over your memory…
+                    </p>
                   ) : (
                     <ul className="mt-2 space-y-1">
                       {liveTraces.map((t) => {
@@ -315,15 +331,22 @@ function Chat() {
                                 ? Trash2
                                 : Database;
                         return (
-                          <li key={t.id} className="flex items-center gap-2 text-[11px] text-muted-foreground">
+                          <li
+                            key={t.id}
+                            className="flex items-center gap-2 text-[11px] text-muted-foreground"
+                          >
                             <Icon className="h-3 w-3 text-primary" />
-                            <span className="font-mono uppercase text-foreground">{t.operation}</span>
+                            <span className="font-mono uppercase text-foreground">
+                              {t.operation}
+                            </span>
                             <span className="text-muted-foreground/70">· {t.source}</span>
                             {t.query && (
                               <span className="truncate italic">"{t.query.slice(0, 60)}"</span>
                             )}
                             {t.duration_ms != null && (
-                              <span className="ml-auto text-muted-foreground/60">{t.duration_ms}ms</span>
+                              <span className="ml-auto text-muted-foreground/60">
+                                {t.duration_ms}ms
+                              </span>
                             )}
                           </li>
                         );
