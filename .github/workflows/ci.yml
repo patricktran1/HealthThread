@@ -56,8 +56,28 @@ jobs:
         if: steps.audit.outputs.exit_code != '0'
         run: exit 1
 
-      - name: Lint
-        run: npm run lint
+      - name: Capture ESLint diagnostics
+        id: lint
+        shell: bash
+        run: |
+          set +e
+          npx eslint . --format json > eslint-report.json
+          exit_code=$?
+          echo "exit_code=${exit_code}" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Upload ESLint diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: healththread-eslint-report
+          path: eslint-report.json
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Enforce lint
+        if: steps.lint.outputs.exit_code != '0'
+        run: exit 1
 
       - name: TypeScript validation
         run: npm run check
