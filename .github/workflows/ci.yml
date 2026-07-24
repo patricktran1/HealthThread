@@ -47,7 +47,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: healththread-lockfile-evidence
-          path: lockfile-diff.txt
+          path: |
+            lockfile-diff.txt
+            package-lock.json
           if-no-files-found: error
           retention-days: 14
 
