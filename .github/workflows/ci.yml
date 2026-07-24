@@ -27,8 +27,11 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Install dependencies
-        run: npm ci --no-audit --no-fund
+      - name: Install committed dependency graph
+        run: npm install --no-audit --no-fund
+
+      - name: Enforce lockfile reproducibility
+        run: git diff --exit-code -- package-lock.json
 
       - name: Repository and secret hygiene
         run: npm run hygiene
