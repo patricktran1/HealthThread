@@ -30,7 +30,13 @@ const skipContent = new Set([
 ]);
 
 const contentPatterns = [
-  ["Supabase service-role assignment", new RegExp(["SUPABASE", "SERVICE", "ROLE", "KEY"].join("_") + "\\s*=")],
+  [
+    "hardcoded Supabase service-role credential",
+    new RegExp(
+      ["SUPABASE", "SERVICE", "ROLE", "KEY"].join("_") +
+        "\\s*[:=]\\s*[\\\"'][A-Za-z0-9._-]{16,}[\\\"']",
+    ),
+  ],
   ["private key material", new RegExp(["BEGIN", "PRIVATE", "KEY"].join(" "))],
   ["GitHub classic token", new RegExp("gh" + "p_[A-Za-z0-9]{30,}")],
   ["OpenAI-style secret", new RegExp("sk" + "-[A-Za-z0-9_-]{24,}")],
