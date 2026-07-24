@@ -23,7 +23,6 @@ export function InsightsCard({ refreshKey }: { refreshKey?: number }) {
 
   useEffect(() => {
     load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshKey]);
 
   return (
